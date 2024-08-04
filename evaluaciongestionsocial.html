@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario de Madurez en Gestión Social</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .question {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .option {
+            margin-bottom: 10px;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        label {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        input[type="radio"]:checked + label {
+            background-color: #3498db;
+            color: white;
+        }
+        button {
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #27ae60;
+        }
+        #results {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Cuestionario de Madurez en Gestión Social</h1>
+    <p class="subtitle">Elaborado por Mauricio Rivas en base a criterios del ICMM</p>
+    <form id="questionnaire">
+        <!-- Las preguntas se generarán aquí dinámicamente -->
+    </form>
+    <button onclick="calculateScore()">Calcular Resultados</button>
+    <div id="results"></div>
+
+    <script>
+                const questions = [
+            {
+                category: "Liderazgo y Cultura",
+                questions: [
+                    {
+                        text: "¿Cómo aborda la alta dirección los temas de desempeño social?",
+                        options: [
+                            "No se abordan o solo en crisis",
+                            "Se reconocen verbalmente, pero sin acciones concretas",
+                            "Se discuten regularmente en reuniones de liderazgo",
+                            "Se integran en la toma de decisiones y estrategia empresarial",
+                            "Son parte fundamental de la cultura empresarial y valores"
+                        ]
+                    },
+                    {
+                        text: "¿Existe una política de desempeño social pública?",
+                        options: [
+                            "No existe",
+                            "Existe pero no se implementa consistentemente",
+                            "Existe y se implementa, pero no se revisa regularmente",
+                            "Existe, se implementa y se revisa regularmente",
+                            "Existe, se implementa, se revisa y se co-diseña con las comunidades"
+                        ]
+                    },
+                    {
+                        text: "¿Cómo se incluye el desempeño social en las comunicaciones de la empresa?",
+                        options: [
+                            "No se incluye",
+                            "Se menciona ocasionalmente",
+                            "Se incluye regularmente en comunicaciones internas",
+                            "Se incluye en todas las comunicaciones internas y externas",
+                            "Es un elemento central en todas las comunicaciones"
+                        ]
+                    },
+                    {
+                        text: "¿Cómo se vincula el desempeño social con la evaluación de desempeño de los líderes?",
+                        options: [
+                            "No se vincula",
+                            "Se menciona pero no afecta la evaluación",
+                            "Es parte de la evaluación de algunos líderes",
+                            "Es parte de la evaluación de todos los líderes",
+                            "Es un factor crítico en la evaluación y compensación de todos los líderes"
+                        ]
+                    }
+                ]
+            },
+            {
+                category: "Integración y Sistemas",
+                questions: [
+                    {
+                        text: "¿Existe una estrategia de desempeño social?",
+                        options: [
+                            "No existe",
+                            "Existe pero se enfoca solo en proyectos de inversión social",
+                            "Existe y se vincula con objetivos de negocio",
+                            "Existe, se vincula con objetivos y aborda temas emergentes",
+                            "Existe, se vincula con objetivos, aborda temas emergentes y se co-diseña con comunidades"
+                        ]
+                    },
+                    {
+                        text: "¿Cómo se gestionan los riesgos e impactos sociales?",
+                        options: [
+                            "No se gestionan sistemáticamente",
+                            "Se gestionan de forma reactiva",
+                            "Existe un sistema de gestión, pero no está completamente integrado",
+                            "Sistema de gestión integrado y proactivo",
+                            "Sistema de gestión integrado, proactivo y con participación comunitaria"
+                        ]
+                    },
+                    {
+                        text: "¿Cómo se integra el desempeño social en los procesos de negocio?",
+                        options: [
+                            "No se integra",
+                            "Se considera ocasionalmente",
+                            "Se integra en algunos procesos clave",
+                            "Se integra en todos los procesos de negocio relevantes",
+                            "Es parte fundamental de todos los procesos de negocio"
+                        ]
+                    },
+                    {
+                        text: "¿Cómo se manejan las obligaciones legales y compromisos sociales?",
+                        options: [
+                            "No se rastrean sistemáticamente",
+                            "Se registran pero no se gestionan activamente",
+                            "Se gestionan a través de un registro actualizado regularmente",
+                            "Se gestionan a través de un sistema en vivo y se revisan continuamente",
+                            "Se gestionan proactivamente con participación de las comunidades"
+                        ]
+                    }
+                ]
+            },
+            {
+                category: "Personas",
+                questions: [
+                    {
+                        text: "¿Qué nivel de experiencia tienen los especialistas en desempeño social?",
+                        options: [
+                            "No hay especialistas dedicados",
+                            "Hay algunos especialistas con experiencia limitada",
+                            "Hay especialistas con experiencia adecuada",
+                            "Hay especialistas altamente calificados en todos los niveles necesarios",
+                            "Los especialistas son líderes reconocidos en la industria"
+                        ]
+                    },
+                    {
+                        text: "¿Cómo se integran las competencias de desempeño social en roles no especializados?",
+                        options: [
+                            "No se integran",
+                            "Se mencionan pero no se evalúan",
+                            "Se incluyen en algunas descripciones de puestos clave",
+                            "Se integran en todos los roles relevantes y se evalúan",
+                            "Son parte fundamental de la evaluación y desarrollo de todos los empleados"
+                        ]
+                    },
+                    {
+                        text: "¿Existe un marco de competencias para el desempeño social?",
+                        options: [
+                            "No existe",
+                            "Existe pero no se implementa consistentemente",
+                            "Existe y se implementa para roles especializados",
+                            "Existe y se implementa para roles especializados y no especializados",
+                            "Existe, se implementa ampliamente y se actualiza regularmente"
+                        ]
+                    },
+                    {
+                        text: "¿Cómo se desarrolla la carrera profesional en desempeño social?",
+                        options: [
+                            "No hay un camino de carrera definido",
+                            "Existe desarrollo ad hoc para roles especializados",
+                            "Existe un camino de carrera definido para roles especializados",
+                            "Existen caminos de carrera que incluyen roles no especializados",
+                            "El desempeño social es parte integral del desarrollo de liderazgo en toda la empresa"
+                        ]
+                    }
+                ]
+            },
+            {
+                category: "Métricas",
+                questions: [
+                    {
+                        text: "¿Qué tipo de métricas se utilizan para medir el desempeño social?",
+                        options: [
+                            "No se utilizan métricas",
+                            "Se miden solo inputs y actividades",
+                            "Se miden outputs y algunos outcomes",
+                            "Se miden outcomes e impactos a largo plazo",
+                            "Se miden impactos a largo plazo con validación de stakeholders"
+                        ]
+                    },
+                    {
+                        text: "¿Existen indicadores vinculados a riesgos sociales significativos?",
+                        options: [
+                            "No existen",
+                            "Existen algunos indicadores rezagados",
+                            "Existen indicadores adelantados y rezagados para riesgos clave",
+                            "Existe un conjunto completo de indicadores integrados en la gestión de riesgos",
+                            "Los indicadores se desarrollan y monitorean en conjunto con las comunidades"
+                        ]
+                    },
+                    {
+                        text: "¿Cómo se integran las métricas de desempeño social en los informes de la empresa?",
+                        options: [
+                            "No se incluyen",
+                            "Se incluyen algunas métricas en informes internos",
+                            "Se incluyen en informes internos y externos, pero no consistentemente",
+                            "Se integran completamente en todos los informes relevantes",
+                            "Son parte central de todos los informes y comunicaciones de la empresa"
+                        ]
+                    },
+                    {
+                        text: "¿Participan los grupos de interés en el monitoreo del desempeño?",
+                        options: [
+                            "No participan",
+                            "Se les informa sobre el desempeño",
+                            "Se les consulta sobre algunas métricas",
+                            "Participan activamente en el desarrollo y monitoreo de métricas",
+                            "Co-diseñan y validan independientemente las métricas y el desempeño"
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        function generateQuestions() {
+            const form = document.getElementById('questionnaire');
+            questions.forEach((category, categoryIndex) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.innerHTML = `<h2>${category.category}</h2>`;
+                category.questions.forEach((question, questionIndex) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `<p>${question.text}</p>`;
+                    question.options.forEach((option, optionIndex) => {
+                        const optionDiv = document.createElement('div');
+                        optionDiv.className = 'option';
+                        optionDiv.innerHTML = `
+                            <input type="radio" id="q${categoryIndex}_${questionIndex}_${optionIndex}" 
+                                   name="q${categoryIndex}_${questionIndex}" value="${optionIndex + 1}">
+                            <label for="q${categoryIndex}_${questionIndex}_${optionIndex}">${option}</label>
+                        `;
+                        questionDiv.appendChild(optionDiv);
+                    });
+                    categoryDiv.appendChild(questionDiv);
+                });
+                form.appendChild(categoryDiv);
+            });
+        }
+
+        function calculateScore() {
+            const scores = questions.map(category => 
+                category.questions.map((_, questionIndex) => {
+                    const selectedOption = document.querySelector(`input[name="q${questions.indexOf(category)}_${questionIndex}"]:checked`);
+                    return selectedOption ? parseInt(selectedOption.value) : 0;
+                })
+            );
+
+            const categoryScores = scores.map(categoryScores => 
+                categoryScores.reduce((a, b) => a + b) / categoryScores.length
+            );
+
+            const overallScore = categoryScores.reduce((a, b) => a + b) / categoryScores.length;
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <h2>Resultados:</h2>
+                <p>Liderazgo y Cultura: ${categoryScores[0].toFixed(2)} - ${getMaturityLevel(categoryScores[0])}</p>
+                <p>Integración y Sistemas: ${categoryScores[1].toFixed(2)} - ${getMaturityLevel(categoryScores[1])}</p>
+                <p>Personas: ${categoryScores[2].toFixed(2)} - ${getMaturityLevel(categoryScores[2])}</p>
+                <p>Métricas: ${categoryScores[3].toFixed(2)} - ${getMaturityLevel(categoryScores[3])}</p>
+                <p>Nivel de Maduración General: ${overallScore.toFixed(2)} - ${getMaturityLevel(overallScore)}</p>
+            `;
+        }
+
+        function getMaturityLevel(score) {
+            if (score >= 1 && score < 2) return "Nivel 1 (Naciente)";
+            if (score >= 2 && score < 3) return "Nivel 2 (Básico)";
+            if (score >= 3 && score < 4) return "Nivel 3 (Gestionado)";
+            if (score >= 4 && score < 5) return "Nivel 4 (Alineado con Buenas Prácticas Internacionales)";
+            if (score === 5) return "Nivel 5 (Práctica Líder)";
+            return "No evaluado";
+        }
+
+        generateQuestions();
+    </script>
+</body>
+</html>
